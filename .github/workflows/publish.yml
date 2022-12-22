@@ -1,0 +1,23 @@
+name: Publish Plugin to Portal
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Cache Gradle Caches
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run Unit test
+        run: ./gradlew :plugin:check
+
+      - name: Publish on Plugin Portal
+        run: ./gradlew :plugin:publishPlugins -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }} -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}

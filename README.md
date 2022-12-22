@@ -35,6 +35,9 @@ Add a loader by
 
 ```kotlin
 keeper {
+    // If true, will throw exception when secret not found.
+    expectValue = false
+    
     environment()
     properties()
 }
