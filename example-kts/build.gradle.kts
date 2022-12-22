@@ -1,3 +1,5 @@
+
+
 plugins {
     id("dev.zxilly.gradle.keeper")
 }
@@ -5,6 +7,7 @@ plugins {
 keeper {
     expectValue = false
     environment()
+    properties()
 }
 
 println(secret.get("test"))
