@@ -6,11 +6,14 @@ plugins {
     id("com.gradle.plugin-publish") version "1.1.0"
 }
 
+group = "dev.zxilly.gradle"
+version = "0.0.1"
+
 repositories {
     mavenCentral()
 }
 
-dependencies{
+dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
 }
@@ -35,7 +38,7 @@ testing {
 
             targets {
                 all {
-                    testTask.configure { shouldRunAfter(test) } 
+                    testTask.configure { shouldRunAfter(test) }
                 }
             }
         }
@@ -43,13 +46,16 @@ testing {
 }
 
 gradlePlugin {
+    website.set("https://github.com/Zxilly/keeper")
+    vcsUrl.set("https://github.com/Zxilly/keeper")
+
     plugins {
         create("keeper") {
             id = "dev.zxilly.gradle.keeper"
             implementationClass = "dev.zxilly.gradle.keeper.KeeperPlugin"
             displayName = "Keeper"
             description = "A Gradle plugin to load secrets from different source build time."
-            version = "0.0.1"
+            tags.set(listOf("secrets", "token", "environment"))
         }
     }
 }
