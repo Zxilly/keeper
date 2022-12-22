@@ -15,5 +15,6 @@ jobs:
       - name: Cache Gradle Caches
         uses: gradle/gradle-build-action@v2
 
-      - name: Run Unit test
-        run: ./gradlew :plugin:check
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: :plugin:check
