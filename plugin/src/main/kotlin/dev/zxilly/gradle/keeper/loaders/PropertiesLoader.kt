@@ -1,22 +1,15 @@
 package dev.zxilly.gradle.keeper.loaders
 
 import dev.zxilly.gradle.keeper.Loader
-import org.gradle.api.Project
 import java.util.Properties as JavaProperties
 
-class Properties(
-    project: Project,
-    path: String = "local.properties",
+class PropertiesLoader(
+    content: String
 ) : Loader {
     private var properties: JavaProperties = JavaProperties()
 
     init {
-        val file = project.file(path)
-        if (!file.exists()) {
-            throw IllegalArgumentException("File $path does not exist.")
-        }
-
-        this.properties.load(file.inputStream())
+        properties.load(content.byteInputStream())
     }
 
     override fun load(key: String): String? {

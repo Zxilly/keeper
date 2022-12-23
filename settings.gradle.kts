@@ -32,5 +32,3 @@ gradleEnterprise {
 rootProject.name = "keeper"
 
 includeBuild("plugin")
-include(":example-kts")
-include(":example")

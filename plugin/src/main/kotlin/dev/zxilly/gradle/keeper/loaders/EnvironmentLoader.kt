@@ -3,9 +3,9 @@ package dev.zxilly.gradle.keeper.loaders
 import dev.zxilly.gradle.keeper.Loader
 import java.util.*
 
-class Environment(private var shouldMap: Boolean = false) : Loader {
+class EnvironmentLoader(private var nameMapping: Boolean = false) : Loader {
     override fun load(key: String): String? {
-        if (shouldMap) {
+        if (nameMapping) {
             return System.getenv(nameMap(key))
         }
         return System.getenv(key)

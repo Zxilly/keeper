@@ -3,6 +3,7 @@
 plugins {
     `java-gradle-plugin`
     kotlin("jvm") version "1.7.22"
+    kotlin("plugin.serialization") version "1.7.22"
     id("com.gradle.plugin-publish") version "1.1.0"
 }
 
@@ -16,6 +17,12 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(gradleApi())
+
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:okhttp-brotli")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
 
 testing {
@@ -34,6 +41,7 @@ testing {
             dependencies {
                 implementation(project())
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+                implementation("org.junit-pioneer:junit-pioneer:2.0.0-RC1")
             }
 
             targets {
@@ -64,4 +72,8 @@ gradlePlugin.testSourceSets(sourceSets["functionalTest"])
 
 tasks.named<Task>("check") {
     dependsOn(testing.suites.named("functionalTest"))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
