@@ -1,4 +1,4 @@
-name: Run unit tests
+name: Publish documentation to GitHub Pages
 
 on:
   push:
