@@ -1,10 +1,13 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     `java-gradle-plugin`
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.serialization") version "1.7.22"
     id("com.gradle.plugin-publish") version "1.1.0"
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 group = "dev.zxilly.gradle"
@@ -51,6 +54,10 @@ testing {
             }
         }
     }
+}
+
+tasks.withType(DokkaTask::class.java).configureEach{
+    moduleName.set("Keeper")
 }
 
 gradlePlugin {
