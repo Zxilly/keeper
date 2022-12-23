@@ -14,30 +14,50 @@ open class ConfigExtension(private val project: Project) {
     // Loaders to load the secret
     open val loaders = mutableListOf<Loader>()
 
+    /**
+     * @param nameMapping If true, the key will be mapped to `KEY_VALUE` from `key.value`.
+     */
     @JvmOverloads
     fun environment(nameMapping: Boolean = false) {
         loaders.add(EnvironmentLoader(nameMapping))
     }
 
+    /**
+     * @param file The properties file.
+     */
     @JvmOverloads
     fun properties(file: File = project.file("local.properties")) {
         loaders.add(PropertiesLoader(file.readText()))
     }
 
+    /**
+     * @param content The properties string.
+     */
     fun properties(content: String) {
         loaders.add(PropertiesLoader(content))
     }
 
+    /**
+     * @param url The url of the json file.
+     * @param headers The headers of the request.
+     */
     @JvmOverloads
     fun properties(url: URL, headers: Map<String, String> = emptyMap()) {
         val content = Utils.get(url.toString(), headers)
         loaders.add(PropertiesLoader(content))
     }
 
+    /**
+     * @param content The content of the json file.
+     */
     fun json(content: String) {
         loaders.add(JsonLoader(content))
     }
 
+    /**
+     * @param url The url of the json file.
+     * @param headers The headers of the request.
+     */
     @JvmOverloads
     fun json(url: URL, headers: Map<String, String> = emptyMap()) {
         val content = Utils.get(url.toString(), headers)

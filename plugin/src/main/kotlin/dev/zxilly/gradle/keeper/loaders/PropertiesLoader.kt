@@ -3,6 +3,9 @@ package dev.zxilly.gradle.keeper.loaders
 import dev.zxilly.gradle.keeper.Loader
 import java.util.Properties as JavaProperties
 
+/**
+ * @param content The properties string.
+ */
 class PropertiesLoader(
     content: String
 ) : Loader {

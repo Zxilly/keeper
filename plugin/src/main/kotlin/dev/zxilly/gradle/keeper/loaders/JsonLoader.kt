@@ -4,7 +4,9 @@ import dev.zxilly.gradle.keeper.Loader
 import kotlinx.serialization.json.*
 import kotlinx.serialization.json.Json as KotlinJson
 
-
+/**
+ * @param content The content of the json file.
+ */
 class JsonLoader(content: String) : Loader {
     private val element = KotlinJson.parseToJsonElement(content)
 

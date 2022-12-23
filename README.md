@@ -63,10 +63,6 @@ keeper {
 }
 ```
 
-#### Arguments
-
-`shouldMap` - If true, the key will be mapped to `KEY_VALUE` from `key.value`.
-
 ### Properties
 
 Load secret from properties file. By default, it will load `local.properties` in the root project directory.
@@ -79,11 +75,11 @@ keeper {
 
 #### Arguments
 
-`path` - The path of the properties file, relative to the root project directory.
+`path:File` - The path of the properties file, relative to the root project directory.
 
 ### Custom
 
-You can also implement your own loader by implementing `dev.zxilly.gradle.keeper.Loader` interface.
+You can also write your own loader by implementing `dev.zxilly.gradle.keeper.Loader` interface.
 
 ```kotlin
 import dev.zxilly.gradle.keeper.Loader
