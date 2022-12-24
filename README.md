@@ -65,17 +65,89 @@ keeper {
 
 ### Properties
 
-Load secret from properties file. By default, it will load `local.properties` in the root project directory.
+Load secret from properties file or url. By default, it will load `local.properties` in the root project directory.
 
 ```kotlin
 keeper {
-    properties()
+    properties(File("local.properties"))
+    properties("https://example.com/secret.properties")
 }
 ```
 
-#### Arguments
+A `projectProperties()` loader is also provided, which acts like `project.property` in gradle.
 
-`path:File` - The path of the properties file, relative to the root project directory.
+```kotlin
+keeper {
+    projectProperties()
+}
+```
+
+### Json
+
+Load json from a json file or url.
+
+```kotlin
+keeper {
+    json(File("path/to/file.json"))
+    json("https://example.com/file.json")
+    json("https://example.com/file.json", mapOf("token" to "value")) // with headers
+}
+```
+
+Use dot split to access the json. For json array, use index.
+```kotlin
+// {"a": {"b": "c"}}
+
+val key = secret.get("a.b")
+//  key = "c"
+```
+
+### Yaml
+
+Load yaml from a yaml file or url.
+
+```kotlin
+keeper {
+    yaml(File("path/to/file.yaml"))
+    yaml("https://example.com/file.yaml")
+    yaml("https://example.com/file.yaml", mapOf("token" to "value")) // with headers
+}
+```
+
+Use dot split to access the yaml. For yaml array, use index.
+```yaml
+a:
+  b: c
+```
+
+```kotlin
+val key = secret.get("a.b")
+//  key = "c"
+```
+
+### Xml
+
+Load xml from a xml file or url.
+
+```kotlin
+keeper {
+    xml(File("path/to/file.xml"))
+    xml("https://example.com/file.xml")
+    xml("https://example.com/file.xml", mapOf("token" to "value")) // with headers
+}
+```
+
+Use xpath to access the xml.
+```xml
+<root>
+    <element attr="value">text</element>
+</root>
+```
+
+```kotlin
+val key = secret.get("/root/element/@attr")
+//  key = "value"
+```
 
 ### Custom
 

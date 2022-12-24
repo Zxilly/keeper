@@ -26,6 +26,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp-brotli")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("com.charleskorn.kaml:kaml:0.49.0")
 }
 
 testing {

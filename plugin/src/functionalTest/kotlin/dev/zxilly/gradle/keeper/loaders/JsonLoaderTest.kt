@@ -8,14 +8,14 @@ class JsonLoaderTest {
     @Test
     fun `test load`() {
         val loader = JsonLoader(content)
-        assert(loader.load("slideshow.author") == "Yours Truly")
-        assert(loader.load("slideshow.slides.0.title") == "Wake up to WonderWidgets!")
+        assertEquals(loader.load("slideshow.author"), "Yours Truly")
+        assertEquals(loader.load("slideshow.slides.0.title"), "Wake up to WonderWidgets!")
     }
 
     @Test
     fun `test load with name map`() {
         val loader = JsonLoader(content)
-        assert(loader.load("slideshow.\"da.te\"") == "date of publication")
+        assertEquals(loader.load("slideshow.\"da.te\""), "date of publication")
     }
 
     @Test

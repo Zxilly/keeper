@@ -5,6 +5,7 @@ import uk.org.webcompere.systemstubs.environment.EnvironmentVariables
 import uk.org.webcompere.systemstubs.jupiter.SystemStub
 import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @ExtendWith(SystemStubsExtension::class)
 class EnvironmentLoaderTest {
@@ -16,7 +17,7 @@ class EnvironmentLoaderTest {
         env.set("test", "test")
 
         val loader = EnvironmentLoader()
-        assert(loader.load("test") == "test")
+        assertEquals(loader.load("test"), "test")
     }
 
     @Test
@@ -24,6 +25,6 @@ class EnvironmentLoaderTest {
         env.set("TEST_OK", "test")
 
         val loader = EnvironmentLoader(true)
-        assert(loader.load("test.ok") == "test")
+        assertEquals(loader.load("test.ok"), "test")
     }
 }
