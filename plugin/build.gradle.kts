@@ -11,7 +11,15 @@ plugins {
 }
 
 group = "dev.zxilly.gradle"
-version = "0.0.1"
+version = "dev"
+
+if (System.getenv("CI") != null) {
+    val type = System.getenv("GITHUB_EVENT_NAME")
+    version = when (type) {
+        "release" -> System.getenv("GITHUB_REF").split("/").last()
+        else -> "snapshot"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -57,7 +65,7 @@ testing {
     }
 }
 
-tasks.withType(DokkaTask::class.java).configureEach{
+tasks.withType(DokkaTask::class.java).configureEach {
     moduleName.set("Keeper")
 }
 
