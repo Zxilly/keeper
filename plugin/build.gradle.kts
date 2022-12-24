@@ -4,8 +4,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     `java-gradle-plugin`
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.serialization") version "1.7.22"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
     id("com.gradle.plugin-publish") version "1.1.0"
     id("org.jetbrains.dokka") version "1.7.20"
 }
@@ -31,7 +31,7 @@ dependencies {
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
-            useKotlinTest("1.7.22")
+            useKotlinTest("1.7.20")
 
             dependencies {
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
@@ -39,7 +39,7 @@ testing {
         }
 
         val functionalTest by registering(JvmTestSuite::class) {
-            useKotlinTest("1.7.22")
+            useKotlinTest("1.7.20")
 
             dependencies {
                 implementation(project())
