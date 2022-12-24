@@ -6,7 +6,7 @@ import org.gradle.api.Project
 
 class KeeperInstance(private val project: Project) {
     fun get(key: String): String? {
-        val extension = project.extensions.getByType(ConfigExtension::class.java)
+        val extension = project.extensions.getByType(KeeperConfigExtension::class.java)
         if (extension.loaders.isEmpty()) {
             throw IllegalStateException("No loader found, please add a loader to the keeper extension")
         }
