@@ -44,7 +44,7 @@ testing {
             dependencies {
                 implementation(project())
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
-                implementation("org.junit-pioneer:junit-pioneer:2.0.0-RC1")
+                implementation("uk.org.webcompere:system-stubs-jupiter:2.0.1")
             }
 
             targets {
