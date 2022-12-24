@@ -31,4 +31,4 @@ gradleEnterprise {
 
 rootProject.name = "keeper"
 
-include(":plugin")
+include(":keeper")
