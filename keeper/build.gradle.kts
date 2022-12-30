@@ -3,11 +3,15 @@
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
+    val ktVersion = "1.8.0"
+
     `java-gradle-plugin`
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
-    id("com.gradle.plugin-publish") version "1.1.0"
+    kotlin("jvm") version ktVersion
+    kotlin("plugin.serialization") version ktVersion
+
     id("org.jetbrains.dokka") version "1.7.20"
+
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
 group = "dev.zxilly.gradle"
