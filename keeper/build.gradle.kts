@@ -71,8 +71,16 @@ testing {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(8))
         vendor.set(JvmVendorSpec.ADOPTIUM)
+    }
+    target {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                languageVersion = "1.8"
+            }
+        }
     }
 }
 
