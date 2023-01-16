@@ -154,7 +154,7 @@ val key = secret.get("/root/element/@attr")
 You can also write your own loader by implementing `dev.zxilly.gradle.keeper.Loader` interface.
 
 ```kotlin
-import dev.zxilly.gradle.keeper.Loader
+import dev.zxilly.gradle.keeper.constraints.Loader
 
 class CustomLoader : Loader {
     override fun load(key: String): String? {

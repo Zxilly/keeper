@@ -1,6 +1,6 @@
 package dev.zxilly.gradle.keeper.loaders
 
-import dev.zxilly.gradle.keeper.Loader
+import dev.zxilly.gradle.keeper.constraints.Loader
 import org.gradle.api.Project
 
 class ProjectPropertiesLoader(private val project: Project) : Loader {

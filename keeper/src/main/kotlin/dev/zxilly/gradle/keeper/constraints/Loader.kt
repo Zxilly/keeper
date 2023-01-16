@@ -1,4 +1,4 @@
-package dev.zxilly.gradle.keeper
+package dev.zxilly.gradle.keeper.constraints
 
 // Loader loads value from some source.
 interface Loader {

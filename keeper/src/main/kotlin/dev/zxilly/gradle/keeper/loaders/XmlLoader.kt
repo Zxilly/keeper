@@ -1,6 +1,6 @@
 package dev.zxilly.gradle.keeper.loaders
 
-import dev.zxilly.gradle.keeper.Loader
+import dev.zxilly.gradle.keeper.constraints.Loader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathFactory

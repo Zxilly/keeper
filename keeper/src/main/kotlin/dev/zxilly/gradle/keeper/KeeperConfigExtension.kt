@@ -1,5 +1,6 @@
 package dev.zxilly.gradle.keeper
 
+import dev.zxilly.gradle.keeper.constraints.Loader
 import dev.zxilly.gradle.keeper.loaders.*
 import org.gradle.api.Project
 import java.io.File

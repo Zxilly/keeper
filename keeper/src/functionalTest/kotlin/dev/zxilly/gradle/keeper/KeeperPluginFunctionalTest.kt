@@ -27,6 +27,7 @@ class KeeperPluginFunctionalTest {
             }
             
             println secret.get("test")
+            println secret.getBase64("base64")
         """.trimIndent())
 
 
@@ -36,10 +37,14 @@ class KeeperPluginFunctionalTest {
         runner.forwardOutput()
         runner.withPluginClasspath()
         runner.withProjectDir(projectDir)
-        runner.withEnvironment(mapOf("test" to "ci_test"))
+        runner.withEnvironment(mapOf(
+            "test" to "ci_test",
+            "base64" to "YmFzZTY0"
+        ))
         val result = runner.build()
 
         // Verify the result
         assertTrue(result.output.contains("ci_test"))
+        assertTrue(result.output.contains("base64"))
     }
 }

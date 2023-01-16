@@ -2,6 +2,8 @@
 
 package dev.zxilly.gradle.keeper
 
+import dev.zxilly.gradle.keeper.constraints.Decoder
+import dev.zxilly.gradle.keeper.decoders.Base64Decoder
 import org.gradle.api.Project
 
 class KeeperInstance(private val project: Project) {
@@ -22,5 +24,23 @@ class KeeperInstance(private val project: Project) {
             throw RuntimeException("No value found for key: $key")
         }
         return null
+    }
+
+    fun <T> get(key: String, type: Class<T>): T? {
+        val value = get(key) ?: return null
+        return type.cast(value)
+    }
+
+    fun get(key: String, vararg decoders: Decoder): String? {
+        val value = get(key)
+        var result = value
+        for (decoder in decoders) {
+            result = decoder.decode(result) ?: throw RuntimeException("Decode failed for key: $key")
+        }
+        return result
+    }
+
+    fun getBase64(key: String): String? {
+        return get(key, Base64Decoder())
     }
 }

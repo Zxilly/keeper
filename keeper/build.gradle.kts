@@ -44,7 +44,7 @@ dependencies {
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
-            useKotlinTest("1.7.20")
+            useKotlinTest("1.8.0")
 
             dependencies {
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
@@ -52,7 +52,7 @@ testing {
         }
 
         val functionalTest by registering(JvmTestSuite::class) {
-            useKotlinTest("1.7.20")
+            useKotlinTest("1.8.0")
 
             dependencies {
                 implementation(project())
@@ -66,6 +66,13 @@ testing {
                 }
             }
         }
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
 
