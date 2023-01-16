@@ -32,7 +32,8 @@ class KeeperInstance(private val project: Project) {
     }
 
     fun get(key: String, vararg decoders: Decoder): String? {
-        val value = get(key)
+        val value = get(key) ?: return null
+
         var result = value
         for (decoder in decoders) {
             result = decoder.decode(result) ?: throw RuntimeException("Decode failed for key: $key")

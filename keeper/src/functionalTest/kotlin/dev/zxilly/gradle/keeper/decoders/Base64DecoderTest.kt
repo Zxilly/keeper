@@ -8,5 +8,6 @@ class Base64DecoderTest {
     fun `test decode`() {
         val decoder = Base64Decoder()
         assertEquals(decoder.decode("dGVzdA=="), "test")
+        assertEquals(decoder.decode(null), null)
     }
 }
