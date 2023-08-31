@@ -1,5 +1,5 @@
 package dev.zxilly.gradle.keeper.constraints
 
-interface Decoder {
+interface SecretDecoder {
     fun decode(value: String?): String?
 }

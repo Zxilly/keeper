@@ -7,7 +7,6 @@ import org.gradle.api.provider.Property
 import kotlin.reflect.KProperty
 
 
-
 internal class GradleProperty<T, V>(
     project: Project,
     type: Class<V>,
