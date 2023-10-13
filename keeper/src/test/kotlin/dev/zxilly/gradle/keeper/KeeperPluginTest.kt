@@ -15,7 +15,7 @@ class KeeperPluginTest {
         val keeper = project.extensions.getByType(KeeperConfigExtension::class.java)
         keeper.environment()
 
-        val instance = project.extensions.getByType(KeeperInstance::class.java)
+        val instance = project.extensions.getByType(Keeper::class.java)
         assertNull(instance.get("test"))
     }
 }

@@ -1,60 +1,62 @@
 package dev.zxilly.gradle.keeper
 
-import dev.zxilly.gradle.keeper.constraints.Loader
 import dev.zxilly.gradle.keeper.loaders.*
+import dev.zxilly.gradle.keeper.parsers.JsonParser
+import dev.zxilly.gradle.keeper.parsers.PropertiesParser
+import dev.zxilly.gradle.keeper.parsers.XmlParser
+import dev.zxilly.gradle.keeper.parsers.YamlParser
+import dev.zxilly.gradle.keeper.providers.EnvironmentProvider
+import dev.zxilly.gradle.keeper.providers.ProjectPropertiesProvider
+import dev.zxilly.gradle.keeper.providers.Provider
 import org.gradle.api.Project
 import java.io.File
 import java.net.URL
 
+@Suppress("MemberVisibilityCanBePrivate")
 open class KeeperConfigExtension(private val project: Project) {
     // If true, the plugin will throw an exception if no value is found
-    open var expectValue by GradleBooleanProperty(project, false)
+    var expectValue by GradleBooleanProperty(project, false)
 
     // Loaders to load the secret
-    open val loaders = mutableListOf<Loader>()
+    val providers = mutableMapOf<ProviderID, Provider>()
+
+    fun attach(provider: Provider): ProviderID {
+        providers[provider.id()] = provider
+        return provider.id()
+    }
+
+    private fun guessLoader(str: String): Loader {
+        return when {
+            str.startsWith("http://") || str.startsWith("https://") -> NetLoader(str)
+            else -> FileLoader(str)
+        }
+    }
 
     /**
      * @param nameMapping If true, the key will be mapped to `KEY_VALUE` from `key.value`.
      */
     @JvmOverloads
-    fun environment(nameMapping: Boolean = false) {
-        loaders.add(EnvironmentLoader(nameMapping))
+    fun environment(nameMapping: Boolean = false): ProviderID {
+        return attach(EnvironmentProvider(nameMapping))
     }
 
-    fun projectProperties() {
-        loaders.add(ProjectPropertiesLoader(project))
+    fun projectProperties(): ProviderID {
+        return attach(ProjectPropertiesProvider(project))
     }
 
     /**
      * @param file The properties file.
      */
     @JvmOverloads
-    fun properties(file: File = project.rootDir.resolve("local.properties")) {
-        loaders.add(PropertiesLoader(file.readText()))
+    fun properties(file: File = project.rootDir.resolve("local.properties")): ProviderID {
+        return attach(FileLoader(file) + PropertiesParser())
     }
 
     /**
-     * @param content The properties string.
+     * @param s The path of the properties file or an url.
      */
-    fun properties(content: String) {
-        loaders.add(PropertiesLoader(content))
-    }
-
-    /**
-     * @param url The url of the json file.
-     * @param headers The headers of the request.
-     */
-    @JvmOverloads
-    fun properties(url: URL, headers: Map<String, String> = emptyMap()) {
-        val content = Utils.get(url.toString(), headers)
-        loaders.add(PropertiesLoader(content))
-    }
-
-    /**
-     * @param content The content of the json file.
-     */
-    fun json(content: String) {
-        loaders.add(JsonLoader(content))
+    fun properties(s: String): ProviderID {
+        return attach(guessLoader(s) + PropertiesParser())
     }
 
     /**
@@ -62,24 +64,46 @@ open class KeeperConfigExtension(private val project: Project) {
      * @param headers The headers of the request.
      */
     @JvmOverloads
-    fun json(url: URL, headers: Map<String, String> = emptyMap()) {
-        val content = Utils.get(url.toString(), headers)
-        loaders.add(JsonLoader(content))
+    fun properties(url: URL, headers: Map<String, String> = emptyMap()): ProviderID {
+        return attach(NetLoader(url.toString(), headers) + PropertiesParser())
+    }
+
+    /**
+     * @param s The path to json file or an url.
+     */
+    fun json(s: String): ProviderID {
+        return attach(guessLoader(s) + JsonParser())
+    }
+
+    /**
+     * @param file The json file.
+     */
+    fun json(file: File): ProviderID {
+        return attach(FileLoader(file) + JsonParser())
+    }
+
+    /**
+     * @param url The url of the json file.
+     * @param headers The headers of the request.
+     */
+    @JvmOverloads
+    fun json(url: URL, headers: Map<String, String> = emptyMap()): ProviderID {
+        return attach(NetLoader(url.toString(), headers) + JsonParser())
     }
 
     /**
      * @param file The file of the yaml file.
      */
-    fun yaml(file: File) {
-        loaders.add(YamlLoader(file.readText()))
+    fun yaml(file: File): ProviderID {
+        return attach(FileLoader(file) + YamlParser())
     }
 
     /**
-     * @param content The content of the yaml file.
+     * @param s The path of the yaml file or an url.
      */
 
-    fun yaml(content: String) {
-        loaders.add(YamlLoader(content))
+    fun yaml(s: String): ProviderID {
+        return attach(guessLoader(s) + YamlParser())
     }
 
     /**
@@ -87,23 +111,22 @@ open class KeeperConfigExtension(private val project: Project) {
      * @param headers The headers of the request.
      */
     @JvmOverloads
-    fun yaml(url: URL, headers: Map<String, String> = emptyMap()) {
-        val content = Utils.get(url.toString(), headers)
-        loaders.add(YamlLoader(content))
+    fun yaml(url: URL, headers: Map<String, String> = emptyMap()): ProviderID {
+        return attach(NetLoader(url.toString(), headers) + YamlParser())
     }
 
     /**
      * @param file The file of the xml file.
      */
-    fun xml(file: File) {
-        loaders.add(XmlLoader(file.readText()))
+    fun xml(file: File): ProviderID {
+        return attach(FileLoader(file) + XmlParser())
     }
 
     /**
-     * @param content The content of the xml file.
+     * @param s The path of the xml file or an url.
      */
-    fun xml(content: String) {
-        loaders.add(XmlLoader(content))
+    fun xml(s: String): ProviderID {
+        return attach(guessLoader(s) + XmlParser())
     }
 
     /**
@@ -111,8 +134,7 @@ open class KeeperConfigExtension(private val project: Project) {
      * @param headers The headers of the request.
      */
     @JvmOverloads
-    fun xml(url: URL, headers: Map<String, String> = emptyMap()) {
-        val content = Utils.get(url.toString(), headers)
-        loaders.add(XmlLoader(content))
+    fun xml(url: URL, headers: Map<String, String> = emptyMap()): ProviderID {
+        return attach(NetLoader(url.toString(), headers) + XmlParser())
     }
 }

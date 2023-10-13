@@ -9,7 +9,7 @@ plugins {
     kotlin("jvm") version ktVersion
     kotlin("plugin.serialization") version ktVersion
 
-    id("org.jetbrains.dokka") version "1.8.20"
+    id("org.jetbrains.dokka") version "1.9.0"
 
     id("com.gradle.plugin-publish") version "1.2.1"
 }
@@ -37,8 +37,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-brotli")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("com.charleskorn.kaml:kaml:0.55.0")
+    implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
+    implementation("io.github.yaml-path:yaml-path:0.0.10")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
 
 val ktTestVersion = "1.9.10"
@@ -47,10 +49,6 @@ testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useKotlinTest(ktTestVersion)
-
-            dependencies {
-                implementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-            }
         }
 
         val functionalTest by registering(JvmTestSuite::class) {
@@ -58,8 +56,7 @@ testing {
 
             dependencies {
                 implementation(project())
-                implementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
-                implementation("uk.org.webcompere:system-stubs-jupiter:2.0.2")
+                implementation("uk.org.webcompere:system-stubs-jupiter:2.1.3")
             }
 
             targets {
@@ -72,15 +69,12 @@ testing {
 }
 
 kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-        vendor.set(JvmVendorSpec.ADOPTIUM)
-    }
+    jvmToolchain(11)
     target {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
-                languageVersion = "1.8"
+                jvmTarget = "11"
+                languageVersion = "1.9"
             }
         }
     }

@@ -1,14 +1,16 @@
-package dev.zxilly.gradle.keeper.loaders
+package dev.zxilly.gradle.keeper.parsers
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class YamlLoaderTest {
+class YamlParserTest {
     @Test fun `test load`() {
-        val loader = YamlLoader(content)
-        assertEquals(loader.load("json.0"), "rigid")
-        assertEquals(loader.load("object.key"), "value")
-        assertEquals(loader.load("object.array.0.null_value"), null)
+        val loader = YamlParser().apply {
+            parse(content)
+        }
+        assertEquals(loader.get("json[0]"), "rigid")
+        assertEquals(loader.get("object.key"), "value")
+        assertEquals(loader.get("object.array[0].null_value"), null)
     }
 
     private val content = """

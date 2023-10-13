@@ -1,4 +1,4 @@
-package dev.zxilly.gradle.keeper.loaders
+package dev.zxilly.gradle.keeper.providers
 
 import org.junit.jupiter.api.extension.ExtendWith
 import uk.org.webcompere.systemstubs.environment.EnvironmentVariables
@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @ExtendWith(SystemStubsExtension::class)
-class EnvironmentLoaderTest {
+class EnvironmentProviderTest {
     @SystemStub
     private val env = EnvironmentVariables()
 
@@ -16,15 +16,15 @@ class EnvironmentLoaderTest {
     fun `test load`() {
         env.set("test", "test")
 
-        val loader = EnvironmentLoader()
-        assertEquals(loader.load("test"), "test")
+        val loader = EnvironmentProvider(false)
+        assertEquals("test", loader.get("test"))
     }
 
     @Test
     fun `test load with name map`() {
         env.set("TEST_OK", "test")
 
-        val loader = EnvironmentLoader(true)
-        assertEquals(loader.load("test.ok"), "test")
+        val loader = EnvironmentProvider(true)
+        assertEquals(loader.get("test.ok"), "test")
     }
 }

@@ -1,16 +1,18 @@
-package dev.zxilly.gradle.keeper.loaders
+package dev.zxilly.gradle.keeper.parsers
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class XmlLoaderTest {
+class XmlParserTest {
     @Test
     fun `test load`() {
-        val loader = XmlLoader(content)
-        assertEquals("1", loader.load("/slideshow/slide/number"))
-        assertEquals("Wake up to WonderWidgets!", loader.load("/slideshow/slide/title"))
-        assertEquals("1.0", loader.load("/slideshow/slide/float"))
-        assertEquals("", loader.load("sadas"))
+        val loader = XmlParser().apply {
+            parse(content)
+        }
+        assertEquals("1", loader.get("/slideshow/slide/number"))
+        assertEquals("Wake up to WonderWidgets!", loader.get("/slideshow/slide/title"))
+        assertEquals("1.0", loader.get("/slideshow/slide/float"))
+        assertEquals("", loader.get("sadas"))
     }
 
 

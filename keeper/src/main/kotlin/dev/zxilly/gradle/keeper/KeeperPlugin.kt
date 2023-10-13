@@ -7,7 +7,7 @@ class KeeperPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.extensions.create("keeper", KeeperConfigExtension::class.java, project)
 
-        project.extensions.add(KeeperInstance::class.java, "secret", KeeperInstance(project))
+        project.extensions.add(Keeper::class.java, "secret", Keeper(project))
     }
 }
 
